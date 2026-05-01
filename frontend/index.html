@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevTrack Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────── -->
+<header>
+  <div class="header-brand">
+    <div class="header-logo">⚡</div>
+    <div>
+      <div class="header-title">DevTrack</div>
+      <div class="header-subtitle">Command Center</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="header-pill">Engineering</span>
+    <span class="header-pill" id="header-date"></span>
+  </div>
+</header>
+
+<!-- ── Main ───────────────────────────────────────────────── -->
+<div class="container">
+
+  <!-- Page title -->
+  <div class="page-title-row">
+    <h1 class="page-title">Issue <span>Dashboard</span></h1>
+    <span class="page-date" id="page-date-label"></span>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="stats-grid">
+    <div class="stat-card total">
+      <div class="stat-top">
+        <div class="stat-icon">📋</div>
+        <span class="stat-trend">All time</span>
+      </div>
+      <div class="stat-value" id="stat-total">—</div>
+      <div class="stat-label">Total Issues</div>
+    </div>
+    <div class="stat-card open-c">
+      <div class="stat-top">
+        <div class="stat-icon">🟢</div>
+        <span class="stat-trend">Active</span>
+      </div>
+      <div class="stat-value" id="stat-open">—</div>
+      <div class="stat-label">Open</div>
+    </div>
+    <div class="stat-card critical">
+      <div class="stat-top">
+        <div class="stat-icon">🔴</div>
+        <span class="stat-trend">Urgent</span>
+      </div>
+      <div class="stat-value" id="stat-critical">—</div>
+      <div class="stat-label">Critical</div>
+    </div>
+    <div class="stat-card sla">
+      <div class="stat-top">
+        <div class="stat-icon">⚠️</div>
+        <span class="stat-trend">At risk</span>
+      </div>
+      <div class="stat-value" id="stat-sla">—</div>
+      <div class="stat-label">SLA Risk</div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar-wrap">
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Search by keyword…" />
+      </div>
+      <button class="btn btn-primary" id="search-btn">Search</button>
+      <button class="btn btn-ghost" id="clear-search">✕ Clear</button>
+      <div class="filter-group">
+        <select class="filter-select" id="filter-status">
+          <option value="">All Statuses</option>
+          <option value="open">Open</option>
+          <option value="in_progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+          <option value="closed">Closed</option>
+        </select>
+        <select class="filter-select" id="filter-priority">
+          <option value="">All Priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="critical">Critical</option>
+        </select>
+        <select class="filter-select" id="filter-team">
+          <option value="">All Teams</option>
+          <option value="backend">Backend</option>
+          <option value="frontend">Frontend</option>
+          <option value="devops">DevOps</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kanban board -->
+  <div class="section-row">
+    <span class="section-heading">Issue Board</span>
+  </div>
+  <div class="kanban">
+    <div class="column">
+      <div class="column-header open">
+        <span class="col-label"><span class="col-dot"></span>Open</span>
+        <span class="column-count" id="count-open">0</span>
+      </div>
+      <div class="column-body" id="col-open"></div>
+    </div>
+    <div class="column">
+      <div class="column-header in_progress">
+        <span class="col-label"><span class="col-dot"></span>In Progress</span>
+        <span class="column-count" id="count-in_progress">0</span>
+      </div>
+      <div class="column-body" id="col-in_progress"></div>
+    </div>
+    <div class="column">
+      <div class="column-header resolved">
+        <span class="col-label"><span class="col-dot"></span>Resolved</span>
+        <span class="column-count" id="count-resolved">0</span>
+      </div>
+      <div class="column-body" id="col-resolved"></div>
+    </div>
+    <div class="column">
+      <div class="column-header closed">
+        <span class="col-label"><span class="col-dot"></span>Closed</span>
+        <span class="column-count" id="count-closed">0</span>
+      </div>
+      <div class="column-body" id="col-closed"></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Create issue form -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-header-icon">✏️</div>
+      <div>
+        <div class="panel-title">Create New Issue</div>
+        <div class="panel-subtitle">Fill in the details below to report a new engineering issue</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <form id="issue-form" autocomplete="off">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="issue-title">Title</label>
+            <input type="text" id="issue-title" placeholder="Brief summary of the issue" required />
+          </div>
+          <div class="form-group full">
+            <label for="issue-description">Description</label>
+            <textarea id="issue-description" rows="3" placeholder="Detailed description of the issue…" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="issue-status">Status</label>
+            <select id="issue-status">
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="issue-priority">Priority</label>
+            <select id="issue-priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="issue-reporter">Reporter ID</label>
+            <input type="number" id="issue-reporter" placeholder="e.g. 1" min="1" required />
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary">⚡ Create Issue</button>
+          <button type="reset" class="btn btn-ghost">Reset</button>
+        </div>
+
+        <div class="alert" id="form-success">
+          <span class="alert-icon">✅</span><span id="form-success-msg"></span>
+        </div>
+        <div class="alert" id="form-error">
+          <span class="alert-icon">❌</span><span id="form-error-msg"></span>
+        </div>
+        <div class="alert" id="form-dup">
+          <span class="alert-icon">⚠️</span><span id="form-dup-msg"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ── Edit Modal ──────────────────────────────────────────── -->
+<div class="modal-backdrop" id="edit-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title-row">
+        <div class="panel-header-icon">✏️</div>
+        <div>
+          <div class="modal-title" id="modal-title">Edit Issue</div>
+          <div class="modal-subtitle" id="modal-issue-id"></div>
+        </div>
+      </div>
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="edit-form" autocomplete="off">
+        <input type="hidden" id="edit-id" />
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="edit-title">Title</label>
+            <input type="text" id="edit-title" required />
+          </div>
+          <div class="form-group full">
+            <label for="edit-description">Description</label>
+            <textarea id="edit-description" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="edit-status">Status</label>
+            <select id="edit-status">
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-priority">Priority</label>
+            <select id="edit-priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-ghost" id="modal-cancel">Cancel</button>
+        </div>
+        <div class="alert" id="edit-error">
+          <span class="alert-icon">❌</span><span id="edit-error-msg"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/static/config.js"></script>
+<script src="/static/script.js"></script>
+<script>
+  // Inject current date
+  const now = new Date();
+  const fmt = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+  document.getElementById('header-date').textContent = fmt;
+  document.getElementById('page-date-label').textContent = fmt;
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "title": "Login button broken",
+    "description": "Login button does not respond on click",
+    "status": "resolved",
+    "priority": "high",
+    "reporter_id": 1,
+    "created_at": "2026-05-01 08:50:58.896325"
+  },
+  {
+    "id": 2,
+    "title": "DB timeout fixed",
+    "description": "Root cause was connection pool exhaustion",
+    "status": "open",
+    "priority": "medium",
+    "reporter_id": 2,
+    "created_at": "2026-05-01 08:50:58.978516"
+  },
+  {
+    "id": 3,
+    "title": "Login button not working on mobile",
+    "description": "Users on iOS 17 cannot tap the login button",
+    "status": "in_progress",
+    "priority": "critical",
+    "reporter_id": 1,
+    "created_at": "2026-05-01 15:13:25.252497"
+  },
+  {
+    "id": 4,
+    "title": "Fix typo in docs",
+    "description": "Minor typo",
+    "status": "closed",
+    "priority": "low",
+    "reporter_id": 1,
+    "created_at": "2026-05-01 15:13:37.878950"
+  },
+  {
+    "id": 5,
+    "title": "API down",
+    "description": "All endpoints returning 503",
+    "status": "open",
+    "priority": "critical",
+    "reporter_id": 1,
+    "created_at": "2026-05-01 15:18:33.026125"
+  },
+  {
+    "id": 6,
+    "title": "Update tooltip text",
+    "description": "Minor wording change",
+    "status": "open",
+    "priority": "low",
+    "reporter_id": 2,
+    "created_at": "2026-05-01 15:18:33.051339"
+  }
+]

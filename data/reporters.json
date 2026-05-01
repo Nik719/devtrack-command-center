@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Alice",
+    "email": "alice@example.com",
+    "team": "backend"
+  },
+  {
+    "id": 2,
+    "name": "Bob",
+    "email": "bob@example.com",
+    "team": "frontend"
+  },
+  {
+    "id": 3,
+    "name": "Carol",
+    "email": "carol@dev.io",
+    "team": "devops"
+  }
+]

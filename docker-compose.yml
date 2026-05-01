@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data   # persist JSON files across container restarts
+    environment:
+      - DEBUG=False
+      - ALLOWED_HOSTS=*
+      - CORS_ALLOW_ALL_ORIGINS=True
+      # After Vercel deploy, replace the line above with:
+      # - CORS_ALLOWED_ORIGINS=https://your-app.vercel.app
