@@ -23,7 +23,7 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-Open your browser at **http://127.0.0.1:8000** to see the dashboard.
+Open your browser at **http://127.0.0.1:8080** to see the dashboard.
 
 ---
 
@@ -125,13 +125,13 @@ curl "http://127.0.0.1:8000/api/issues/search/?q=login"
 JSON files keep the project self-contained and dependency-free. No database setup, no migrations — just clone and run. For a real production system you would swap `read_json` / `write_json` for a database layer without touching the API or OOP classes.
 
 **Why separate OOP classes in `models.py`?**
-`BaseEntity` provides a shared concrete `to_dict()` (using `__dict__`) and declares `validate()` as abstract. `Reporter` and `Issue` each implement `validate()` with `raise ValueError(...)`. `CriticalIssue` and `LowPriorityIssue` override only `describe()`. The views instantiate the correct subclass via `build_issue()` and delegate all validation to the model, keeping the view layer thin.
+`BaseEntity`, `Reporter`, `Issue`, `CriticalIssue`, and `LowPriorityIssue` each own their own validation (`validate()`) and serialization (`to_dict()`). The views in `views.py` instantiate these classes and delegate all business rules to them, keeping the view layer thin and the models testable in isolation.
 
 **Inheritance hierarchy:**
 ```
-BaseEntity (abstract — validate(); concrete — to_dict())
+BaseEntity (abstract)
 ├── Reporter
 └── Issue
-    ├── CriticalIssue     (overrides describe())
-    └── LowPriorityIssue  (overrides describe())
+    ├── CriticalIssue   (priority locked to "critical")
+    └── LowPriorityIssue (priority locked to "low")
 ```
