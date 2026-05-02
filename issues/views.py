@@ -57,8 +57,8 @@ def find_possible_duplicate(new_title, issues):
     new_words = {w for w in new_title.lower().split() if w not in IGNORE_WORDS}
     for issue in issues:
         existing_words = {w for w in issue['title'].lower().split() if w not in IGNORE_WORDS}
-        if len(new_words & existing_words) >= 2:
-            return issue['title']
+    if len(new_words & existing_words) >= 2:
+        return issue['title']
     return None
 
 
