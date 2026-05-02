@@ -187,6 +187,10 @@ def issues_view(request):
             return JsonResponse({"error": "Invalid JSON"}, status=400)
 
         issues = read_json('issues.json')
+        reporters = read_json('reporters.json')
+        reporter_id = body.get('reporter_id')
+        if not any(r['id'] == reporter_id for r in reporters):
+            return JsonResponse({"error": "reporter_id does not match any existing Reporter"}, status=400)
         issue_obj = build_issue(next_id(issues), body)
         try:
             issue_obj.validate()
